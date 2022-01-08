@@ -17,4 +17,4 @@ on demand by the user from the script's menu. The user is then guided through th
 
 # Requirements 
 
-This tool requires [smartmontools](https://wiki.archlinux.org/title/S.M.A.R.T.) to be installed on the system for option 6. to work. The [smartmontools package](https://archlinux.org/packages/extra/x86_64/smartmontools/) can be directly installed by selecting the option without the package installed.
+This tool requires [smartmontools](https://wiki.archlinux.org/title/S.M.A.R.T.) to be installed on the system for option 6. to work. If needed, the [smartmontools package](https://archlinux.org/packages/extra/x86_64/smartmontools/) can be directly installed just by selecting option 6.
