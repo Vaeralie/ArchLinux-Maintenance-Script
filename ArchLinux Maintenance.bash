@@ -7,7 +7,7 @@
   echo -e "\n"
   echo "Maintenance menu"
   echo "Select an option :"
-  select MenuChoice in "Check for failed systemd services" "Check for errors in the log files" "Upgrade packages" "Check for orphaned packages" "Clean packages cache" "Check disks health" "Exit"; do
+  select MenuChoice in "Check for failed systemd services" "Check for errors in the log files" "Upgrade packages" "Check for orphaned packages" "Clean packages cache" "Check disks health" "Reboot computer" "Exit program"; do
     case $MenuChoice in
 
     ############## Systemd services check ##############
@@ -165,13 +165,17 @@
     break;;
 
 
+    ############## Reboot computer ##############
 
-    # Exit
-
-    "Exit" ) exit
+    "Reboot computer" ) reboot;;
 
 
-    # Menu  ending
+############## Exit ##############
+
+    "Exit program" ) exit
+
+
+    ############## Menu  ending ##############
 
     esac
     done
