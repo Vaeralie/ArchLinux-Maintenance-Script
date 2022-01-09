@@ -10,7 +10,7 @@ This script can :
 6. clean packages cache,
 7. check disks health,
 
-on demand by the user from the script's menu. The user is then guided through the process.
+on demand by the user from the script's menu.
 
 ![Screenshot_2022-01-09_01-37-57](https://user-images.githubusercontent.com/84401519/148664681-52ff22e4-316f-4943-8853-d4191cd7eead.png)
 
