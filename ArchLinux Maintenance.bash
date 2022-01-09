@@ -7,8 +7,9 @@
   echo -e "\n"
   echo "Maintenance menu"
   echo "Select an option :"
-  select MenuChoice in "Check for failed systemd services" "Check for errors in the log files" "Upgrade packages" "Check for orphaned packages" "Clean packages cache" "Check disks health" "Reboot computer" "Exit program"; do
+  select MenuChoice in "Check for failed systemd services" "Check for errors in the log files" "Upgrade official packages" "Upgrade AUR packages" "Check for orphaned packages" "Clean packages cache" "Check disks health" "Reboot computer" "Exit program"; do
     case $MenuChoice in
+
 
     ############## Systemd services check ##############
 
@@ -30,11 +31,23 @@
     break;;
 
 
-    ############## Packages upgrade ##############
+    ############## Official packages upgrade ##############
 
-    "Upgrade packages" ) echo -e "\n"
+    "Upgrade official packages" ) echo -e "\n"
     echo "Upgrading official packages."
     pacman -Syu
+    break;;
+
+
+    ############## AUR packages upgrade ##############
+
+    "Upgrade AUR packages" ) echo -e "\n"
+    if pacman -Qs yay | grep -q 'yay'; then
+        yay -Sua
+    else
+        echo "This option uses 'Yet another yogurt' (yay) to upgrade your AUR packages."
+        echo "The yay package can be found in the AUR repository at the following link : https://aur.archlinux.org/packages/yay/"
+    fi
     break;;
 
 
@@ -172,11 +185,12 @@
 
 ############## Exit ##############
 
-    "Exit program" ) exit
+    "Exit program" ) exit;;
 
 
-    ############## Menu  ending ##############
+    ############## Menu closing ##############
 
-    esac
-    done
-    done
+  esac
+  done
+  done
+  
