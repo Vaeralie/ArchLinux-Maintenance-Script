@@ -43,7 +43,11 @@
 
     "Upgrade AUR packages" ) echo -e "\n"
     if pacman -Qs yay | grep -q 'yay'; then
-        yay -Sua
+        if [ "$EUID" = 0 ]; then
+            echo "Please don't run this option as root nor sudo."
+            else
+            yay -Sua
+        fi
     else
         echo "This option uses 'Yet another yogurt' (yay) to upgrade your AUR packages."
         echo "The yay package can be found in the AUR repository at the following link : https://aur.archlinux.org/packages/yay/"
