@@ -18,4 +18,5 @@ on demand by the user from the script's menu.
 
 # Requirements 
 
-This tool requires [smartmontools](https://wiki.archlinux.org/title/S.M.A.R.T.) to be installed on the system for option 6. to work. If needed, the [smartmontools package](https://archlinux.org/packages/extra/x86_64/smartmontools/) can be directly installed just by selecting option 6.
+- Yet another yogurt (yay) for option 4. The yay package can be found in the AUR at the following link : https://aur.archlinux.org/packages/yay/.
+- Self-Monitoring, Analysis, and Reporting Technology - S.M.A.R.T. (smartmontools) for option 6. The [smartmontools package](https://archlinux.org/packages/extra/x86_64/smartmontools/) can be manually installed by running 'pacman -S smartmontools' or automatically by selecting option 6 without the package installed.
