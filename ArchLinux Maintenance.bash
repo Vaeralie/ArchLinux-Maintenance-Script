@@ -56,7 +56,8 @@
     "Check for orphaned packages" ) echo -e "\n"
     echo "Orphaned packages :"
     pacman -Qtd
-        if [[ $(ls -A) ]]; then
+    output="$(pacman -Qtd)"
+        if [[ -n $output ]]; then
             echo -e "\n"
             echo "Remove orphaned packages ?"
             select yn in "Yes" "No"; do
