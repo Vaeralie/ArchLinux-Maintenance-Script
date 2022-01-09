@@ -11,7 +11,7 @@ This script can :
 
 on demand by the user from the script's menu. The user is then guided through the process.
 
-![Screenshot_2022-01-08_02-52-41](https://user-images.githubusercontent.com/84401519/148627326-11daabc8-197c-48dc-be37-6ef35a54b08a.png)
+![Screenshot_2022-01-09_01-37-57](https://user-images.githubusercontent.com/84401519/148664681-52ff22e4-316f-4943-8853-d4191cd7eead.png)
 
 
 
