@@ -63,7 +63,6 @@
     ############## Orphaned packages check ##############
 
     "Check for orphaned packages" ) echo -e "\n"
-    if [ "$EUID" != 0 ]; then
         echo "Orphaned packages :"
         pacman -Qtd
         output="$(pacman -Qtd)"
@@ -72,31 +71,21 @@
                 echo "Remove orphaned packages ?"
                 select yn in "Yes" "No"; do
                     case $yn in
-                        Yes ) pacman -Qtdq | sudo pacman -Rns -| sed '1 \i Removing orphaned packages...'; break;;
+                        Yes )
+                            if [ "$EUID" != 0 ]; then
+                            pacman -Qtdq | sudo pacman -Rns -| sed '1 \i Removing orphaned packages...'; break
+                            else
+                            echo "Removing orphaned packages..."
+                            pacman -Qtdq
+                            fi
+                            break;;
+
                         No ) break;;
                     esac
                 done
             else
                 echo "No orphaned packages found."
             fi
-    else
-    echo "Orphaned packages :"
-        pacman -Qtd
-        output="$(pacman -Qtd)"
-            if [[ -n $output ]]; then
-                echo -e "\n"
-                echo "Remove orphaned packages ?"
-                select yn in "Yes" "No"; do
-                    case $yn in
-                        Yes ) echo "Removing orphaned packages..."
-                        pacman -Qtdq | pacman -Rns -; break;;
-                        No ) break;;
-                    esac
-                done
-            else
-                echo "No orphaned packages found."
-            fi
-    fi
     break;;
 
 
