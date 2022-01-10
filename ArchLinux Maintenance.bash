@@ -34,8 +34,12 @@
     ############## Official packages upgrade ##############
 
     "Upgrade official packages" ) echo -e "\n"
-    echo "Upgrading official packages."
-    pacman -Syu
+    if [ "$EUID" != 0 ]; then
+        sudo pacman -Syu | sed '1 i\ Upgrading official packages...'
+    else
+        echo "Upgrading official packages..."
+        pacman -Syu
+    fi
     break;;
 
 
@@ -44,8 +48,9 @@
     "Upgrade AUR packages" ) echo -e "\n"
     if pacman -Qs yay | grep -q 'yay'; then
         if [ "$EUID" = 0 ]; then
-            echo "Please don't run this option as root nor sudo."
+            echo "Please don't run this option while on root nor sudo."
             else
+            echo "Upgrading AUR packages..."
             yay -Sua
         fi
     else
@@ -58,21 +63,40 @@
     ############## Orphaned packages check ##############
 
     "Check for orphaned packages" ) echo -e "\n"
+    if [ "$EUID" != 0 ]; then
+        echo "Orphaned packages :"
+        pacman -Qtd
+        output="$(pacman -Qtd)"
+            if [[ -n $output ]]; then
+                echo -e "\n"
+                echo "Remove orphaned packages ?"
+                select yn in "Yes" "No"; do
+                    case $yn in
+                        Yes ) pacman -Qtdq | sudo pacman -Rns -| sed '1 \i Removing orphaned packages...'; break;;
+                        No ) break;;
+                    esac
+                done
+            else
+                echo "No orphaned packages found."
+            fi
+    else
     echo "Orphaned packages :"
-    pacman -Qtd
-    output="$(pacman -Qtd)"
-        if [[ -n $output ]]; then
-            echo -e "\n"
-            echo "Remove orphaned packages ?"
-            select yn in "Yes" "No"; do
-                case $yn in
-                    Yes ) pacman -Qtdq | pacman -Rns -; break;;
-                    No ) break;;
-                esac
-            done
-        else
-            echo "No orphaned packages found."
-        fi
+        pacman -Qtd
+        output="$(pacman -Qtd)"
+            if [[ -n $output ]]; then
+                echo -e "\n"
+                echo "Remove orphaned packages ?"
+                select yn in "Yes" "No"; do
+                    case $yn in
+                        Yes ) echo "Removing orphaned packages..."
+                        pacman -Qtdq | pacman -Rns -; break;;
+                        No ) break;;
+                    esac
+                done
+            else
+                echo "No orphaned packages found."
+            fi
+    fi
     break;;
 
 
@@ -84,8 +108,20 @@
                     echo "Enter the number of the most recent cached versions you want to keep :"
                     read -r VersionNumber
                         case $CleanType in
-                            All ) paccache -rk"$VersionNumber"; break;;
-                            Uninstalled ) paccache -ruk"$VersionNumber"; break;;
+                            All )
+                                if [ "$EUID" != 0 ]; then
+                                sudo paccache -rk"$VersionNumber" | sed '1 i\ Cleaning packages cache...'
+                                else
+                                paccache -rk"$VersionNumber"
+                                fi
+                             break;;
+                            Uninstalled )
+                                if [ "$EUID" != 0 ]; then
+                                sudo paccache -ruk"$VersionNumber" | sed '1 i\ Cleaning packages cache...'
+                                else
+                                paccache -ruk"$VersionNumber"
+                                fi
+                                break;;
                         esac
             done
     break;;
@@ -173,7 +209,13 @@
         select yn in "Yes" "No"; do
             case $yn in
 
-            Yes ) pacman -S smartmontools; break;;
+            Yes )
+                if [ "$EUID" != 0 ]; then
+                sudo pacman -S smartmontools;
+                else
+                pacman -S smartmontools
+                fi
+                break;;
             No ) break;;
 
             esac
@@ -188,14 +230,13 @@
     "Reboot computer" ) reboot;;
 
 
-############## Exit ##############
+    ############## Exit ##############
 
     "Exit program" ) exit;;
 
 
-    ############## Menu closing ##############
+  ############## Menu closing ##############
 
   esac
   done
   done
-  
