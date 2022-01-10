@@ -112,6 +112,7 @@
                                 if [ "$EUID" != 0 ]; then
                                 sudo paccache -rk"$VersionNumber" | sed '1 i\ Cleaning packages cache...'
                                 else
+                                echo "Cleaning packages cache..."
                                 paccache -rk"$VersionNumber"
                                 fi
                              break;;
@@ -119,6 +120,7 @@
                                 if [ "$EUID" != 0 ]; then
                                 sudo paccache -ruk"$VersionNumber" | sed '1 i\ Cleaning packages cache...'
                                 else
+                                echo "Cleaning packages cache..."
                                 paccache -ruk"$VersionNumber"
                                 fi
                                 break;;
