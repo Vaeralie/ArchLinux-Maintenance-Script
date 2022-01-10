@@ -35,7 +35,8 @@
 
     "Upgrade official packages" ) echo -e "\n"
     if [ "$EUID" != 0 ]; then
-        sudo pacman -Syu | sed '1 i\ Upgrading official packages...'
+        echo "Upgrading official packages..."
+        sudo pacman -Syu
     else
         echo "Upgrading official packages..."
         pacman -Syu
@@ -48,7 +49,7 @@
     "Upgrade AUR packages" ) echo -e "\n"
     if pacman -Qs yay | grep -q 'yay'; then
         if [ "$EUID" = 0 ]; then
-            echo "Please don't run this option while on root nor sudo."
+            echo "Please don't run this option while on root."
             else
             echo "Upgrading AUR packages..."
             yay -Sua
@@ -73,10 +74,11 @@
                     case $yn in
                         Yes )
                             if [ "$EUID" != 0 ]; then
-                            pacman -Qtdq | sudo pacman -Rns -| sed '1 \i Removing orphaned packages...'; break
+                            echo "Removing orphaned packages..."
+                            pacman -Qtdq | sudo pacman -Rns -
                             else
                             echo "Removing orphaned packages..."
-                            pacman -Qtdq
+                            pacman -Qtdq | pacman -Rns -
                             fi
                             break;;
 
@@ -99,7 +101,8 @@
                         case $CleanType in
                             All )
                                 if [ "$EUID" != 0 ]; then
-                                sudo paccache -rk"$VersionNumber" | sed '1 i\ Cleaning packages cache...'
+                                echo "Cleaning packages cache..."
+                                sudo paccache -rk"$VersionNumber"
                                 else
                                 echo "Cleaning packages cache..."
                                 paccache -rk"$VersionNumber"
@@ -107,7 +110,8 @@
                              break;;
                             Uninstalled )
                                 if [ "$EUID" != 0 ]; then
-                                sudo paccache -ruk"$VersionNumber" | sed '1 i\ Cleaning packages cache...'
+                                echo "Cleaning packages cache..."
+                                sudo paccache -ruk"$VersionNumber"
                                 else
                                 echo "Cleaning packages cache..."
                                 paccache -ruk"$VersionNumber"
@@ -202,7 +206,7 @@
 
             Yes )
                 if [ "$EUID" != 0 ]; then
-                sudo pacman -S smartmontools;
+                sudo pacman -S smartmontools
                 else
                 pacman -S smartmontools
                 fi
