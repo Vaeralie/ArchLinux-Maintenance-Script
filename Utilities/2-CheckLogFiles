@@ -1,0 +1,10 @@
+#!/bin/bash
+
+    echo -e "\n"
+    echo "Checking for errors."
+    echo "If needed, press Q to exit."
+    echo -e "\n"
+    journalctl -p 3 -b
+
+
+    exec $(dirname $(dirname $(realpath $0)))/ArchLinux-Maintenance

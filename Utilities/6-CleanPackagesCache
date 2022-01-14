@@ -1,0 +1,32 @@
+#!/bin/bash
+
+echo -e "\n"
+            echo "Clean cache of all packages or limit to uninstalled packages ?"
+            select CleanType in "All" "Uninstalled"; do
+                    echo "Enter the number of the most recent cached versions you want to keep :"
+                    read -r VersionNumber
+                        case $CleanType in
+                            All )
+                                if [ "$EUID" != 0 ]; then
+                                echo "Cleaning packages cache..."
+                                sudo paccache -rk"$VersionNumber"
+                                else
+                                echo "Cleaning packages cache..."
+                                paccache -rk"$VersionNumber"
+                                fi
+                             break;;
+                            Uninstalled )
+                                if [ "$EUID" != 0 ]; then
+                                echo "Cleaning packages cache..."
+                                sudo paccache -ruk"$VersionNumber"
+                                else
+                                echo "Cleaning packages cache..."
+                                paccache -ruk"$VersionNumber"
+                                fi
+                                break;;
+                        esac
+            done
+
+
+    exec $(dirname $(dirname $(realpath $0)))/ArchLinux-Maintenance
+

@@ -1,0 +1,97 @@
+#!/bin/bash
+
+    if pacman -Qs smartmontools | grep -q 'smartmontools'; then
+            while true; do
+            echo -e "\n"
+            echo "Test disks health or check disks health ?"
+            select DiskHealthChoice in "Test disks" "Check disks" "Return to main menu"; do
+                  case $DiskHealthChoice in
+
+
+                    "Test disks" ) while true; do
+                        echo -e "\n"
+                        echo "Enter the last letter of the disk you want to test (example : b for /dev/sdb) :"
+                        read -r DiskLetter
+                        while true; do
+                        echo -e "\n"
+                        echo "Select test length :"
+                        select TestLength in "Short" "Long" "Check tests time"; do
+                            case $TestLength in
+
+                            Short ) smartctl -t short /dev/sd"$DiskLetter"
+                                echo -e "\n"
+                                echo "Test another disk ?"
+                                select yn in "Yes" "No"; do
+                                    case $yn in
+                                        "Yes" ) break 3;;
+                                        "No" ) break 5;;
+                                    esac
+
+                            done;;
+
+                            Long ) smarctl -t long /dev/sd"$DiskLetter";
+                                echo -e "\n"
+                                echo "Test another disk ?"
+                                select yn in "Yes" "No"; do
+                                    case $yn in
+                                        "Yes" ) break 3;;
+                                        "No" ) break 5;;
+
+                                    esac
+
+                                done;;
+
+                            "Check tests time" )
+                                echo -e "\n"
+                                smartctl -c /dev/sd"$DiskLetter" | grep -i 'recommended' | sed '1 i\ Short self-test routine for /dev/sd'"$DiskLetter"'' | sed '3 i\ Extended (long) self-test routine for /dev/sd'"$DiskLetter"''; break;;
+
+                            esac
+                        done
+                        done
+                    done;;
+
+                    "Check disks" ) while true; do
+                        echo -e "\n"
+                        echo "Enter the last letter of the disk you want to check (example : b for /dev/sdb) :"
+                        read -r DiskLetter
+                        echo -e "\n"
+                        smartctl /dev/sd"$DiskLetter" -HA
+                        echo -e "\n"
+                        echo "Check another disk ?"
+                        select yn in "Yes" "No"; do
+                                    case $yn in
+                                        "Yes" ) break;;
+                                        "No" ) break 3;;
+                                    esac
+                        done
+                        done;;
+
+            "Return to main menu" ) break 2;;
+
+            esac
+            done
+            done
+
+        else echo -e "\n"
+        echo "This option requires smartmontools installed on your system."
+        echo "Install smartmontools package now ?"
+        select yn in "Yes" "No"; do
+            case $yn in
+
+            Yes )
+                if [ "$EUID" != 0 ]; then
+                sudo pacman -S smartmontools
+                else
+                pacman -S smartmontools
+                fi
+                break;;
+            No ) break;;
+
+            esac
+        done
+
+    fi
+
+
+    exec $(dirname $(dirname $(realpath $0)))/ArchLinux-Maintenance
+

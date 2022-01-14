@@ -1,0 +1,13 @@
+#!/bin/bash
+
+    echo -e "\n"
+    if [ "$EUID" != 0 ]; then
+        echo "Upgrading official packages..."
+        sudo pacman -Syu
+    else
+        echo "Upgrading official packages..."
+        pacman -Syu
+    fi
+
+
+    exec $(dirname $(dirname $(realpath $0)))/ArchLinux-Maintenance

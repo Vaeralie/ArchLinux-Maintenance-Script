@@ -1,0 +1,37 @@
+#!/bin/bash
+
+echo -e "\n"
+    if pacman -Qs " yay " | grep -q 'yay'; then
+        if [ "$EUID" = 0 ]; then
+            echo "Please don't run this option while on superuser mode."
+            echo "Run as non-superuser or return to main menu ?"
+                select yn in "Run" "Return"; do
+                    case $yn in
+                        Run ) echo -e "\n"
+                            while true; do
+                            echo "Enter non-root username :"
+                            read Username
+                                if [[ $Username = root ]]; then
+                                echo "ERROR : don't enter root username."
+                                else echo -e "\n"
+                                su -c "yay -Sua" $Username
+                                break
+                                fi
+                            done
+                            break 2;;
+                        Return ) break 2;;
+                    esac
+                done
+        else
+            echo "Upgrading AUR packages..."
+            yay -Sua
+            break
+        fi
+    else
+        echo "This option uses 'Yet another yogurt' (yay) to upgrade your AUR packages."
+        echo "The yay package can be found in the AUR repository at the following link : https://aur.archlinux.org/packages/yay/"
+    fi
+
+
+    exec $(dirname $(dirname $(realpath $0)))/ArchLinux-Maintenance
+
