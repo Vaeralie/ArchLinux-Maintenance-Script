@@ -1,0 +1,10 @@
+#!/bin/bash
+
+    echo -e "\n"
+    echo "Checking for failed systemd services."
+    echo "If needed, press Q to exit."
+    echo -e "\n"
+    systemctl --failed
+
+
+    exec $(dirname $(dirname $(realpath $0)))/ArchLinux-Maintenance
