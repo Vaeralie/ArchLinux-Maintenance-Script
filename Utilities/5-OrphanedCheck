@@ -3,8 +3,7 @@
     echo -e "\n"
         echo "Orphaned packages :"
         pacman -Qtd
-        output="$(pacman -Qtd)"
-            if [[ -n $output ]]; then
+            if [[ -n $(pacman -Qtd) ]]; then
                 echo -e "\n"
                 echo "Remove orphaned packages ?"
                 select yn in "Yes" "No"; do
