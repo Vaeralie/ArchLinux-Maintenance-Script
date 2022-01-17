@@ -10,13 +10,8 @@
                 select yn in "Yes" "No"; do
                     case $yn in
                         Yes )
-                            if [ "$EUID" != 0 ]; then
                             echo "Removing orphaned packages..."
                             pacman -Qtdq | sudo pacman -Rns -
-                            else
-                            echo "Removing orphaned packages..."
-                            pacman -Qtdq | pacman -Rns -
-                            fi
                             break;;
 
                         No ) break;;
