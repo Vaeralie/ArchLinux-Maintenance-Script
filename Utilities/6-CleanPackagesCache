@@ -7,22 +7,12 @@ echo -e "\n"
                     read -r VersionNumber
                         case $CleanType in
                             All )
-                                if [ "$EUID" != 0 ]; then
                                 echo "Cleaning packages cache..."
                                 sudo paccache -rk"$VersionNumber"
-                                else
-                                echo "Cleaning packages cache..."
-                                paccache -rk"$VersionNumber"
-                                fi
-                             break;;
+                                break;;
                             Uninstalled )
-                                if [ "$EUID" != 0 ]; then
                                 echo "Cleaning packages cache..."
                                 sudo paccache -ruk"$VersionNumber"
-                                else
-                                echo "Cleaning packages cache..."
-                                paccache -ruk"$VersionNumber"
-                                fi
                                 break;;
                         esac
             done
