@@ -78,13 +78,8 @@
         select yn in "Yes" "No"; do
             case $yn in
 
-            Yes )
-                if [ "$EUID" != 0 ]; then
-                sudo pacman -S smartmontools
-                else
-                pacman -S smartmontools
-                fi
-                break;;
+            Yes )sudo pacman -S smartmontools
+                 break;;
             No ) break;;
 
             esac
