@@ -1,5 +1,7 @@
 #!/bin/bash
 
+  chmod u+x -R $(dirname $(realpath $0))/Utilities/
+
   ############## Menu ##############
 
   echo -e "\n"
